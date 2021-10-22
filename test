@@ -11,6 +11,17 @@ for prr in pr:
     reponame=os.environ[prr].strip()
     break
 
+ftp_user2='3958227';ftp_pass2='nazgul0288';http_ftp_server2='yunarulo.scienceontheweb.net';ftp_server2=http_ftp_server2+'/'+http_ftp_server2+'/';
+
+def curl_ftp_download2(down_file):
+  os.system('rm -f "'+down_file+'"&&curl --silent "http://'+http_ftp_server2+'/'+down_file+'" -o "'+down_file+'"')
+  while not os.path.exists(down_file): #repeat command
+    print 'downloading '+down_file+' failed.retrying in 2 sec..'
+    time.sleep(5)
+    os.system('rm -f "'+down_file+'"&&curl --silent "http://'+http_ftp_server2+'/'+down_file+'" -o "'+down_file+'"')
+
+curl_ftp_upload2=lambda up_file: os.system('curl --silent -T "'+up_file+'" "ftp://'+ftp_server2+'" --user "'+ftp_user2+':'+ftp_pass2+'"')
+
 
 if reponame:
   reponame=os.path.split(reponame)[1]
@@ -244,10 +255,13 @@ def parse_cc(verbose=True,download_from_server=False):
     # ~ wm=ds('fobar','zuPW0ayVntbJ4dje0MXh2J3D1enL0dLC2cvikMTh054=')
     # ~ wm=ds('fobar','zuPW0ayVnsnW2selmZajmJ3D1enL0dLC2cvikMTh054=') #shift to 1
     # ~ wm=ds('fobar','zuPW0ayVnsnW2selmZajmJ3D1enL0dLC2cvikMTh054=') #shift to 1
-    wm='http://morondor.atwebpages.com/'
-    cmd='rm -vf '+cc_file+'&&curl --silent "'+wm+cc_file+'" -o "'+cc_file+'"'
-    if verbose:print cmd
-    os.system(cmd)
+    # ~ wm='http://morondor.atwebpages.com/'
+    # ~ cmd='rm -vf '+cc_file+'&&curl --silent "'+wm+cc_file+'" -o "'+cc_file+'"'
+    # ~ cmd='rm -vf '+cc_file
+    # ~ if verbose:print cmd
+    # ~ os.system(cmd)
+    curl_ftp_download2(cc_file)
+    
   if os.path.exists(cc_file):
     acf=open(cc_file)
     conf=yaml.safe_load(acf)
@@ -928,10 +942,11 @@ def meta_upload():
     a=open(gacc_file,'w')
     for k in cc: a.write(k+': '+cc[k]+'\n')
     a.close()    
-    ij='3849294:nazgul0288N)'
-    ws='ftp://morondor.atwebpages.com/morondor.atwebpages.com/'
-    cmd='curl --silent -T "'+gacc_file+'" '+ws+' --user "'+ij+'"'
-    os.system(cmd)
+    curl_ftp_upload2(gacc_file)
+    # ~ ij='3849294:nazgul0288N)'
+    # ~ ws='ftp://morondor.atwebpages.com/morondor.atwebpages.com/'
+    # ~ cmd='curl --silent -T "'+gacc_file+'" '+ws+' --user "'+ij+'"'
+    #os.system(cmd)
 def update_enc_progress(percent,speed='',error=''):  
   cc=parse_cc(verbose=False)
   if speed:
@@ -948,14 +963,15 @@ def update_enc_progress(percent,speed='',error=''):
   a=open(gacc_file,'w')
   for k in cc: a.write(k+': '+cc[k]+'\n')
   a.close()    
+  curl_ftp_upload2(gacc_file)
   # ~ ij=ds('fobar','maGXkqSXoZzO4dTe25inmaM=')
   # ~ ws=ds('fobar','zOPSm6GV48rQ5NXdxtDklNDW2NfI38PI19mdxdDflePK0OTV3cbQ5JTQ1tjXyN_DyNfZncXQ35U=')
   #ij=ds('fobar','mKebmKSbopzP0-DW182imKear5s=')
   #ws=ds('fobar','zOPSm6GV1tfJ05yml5KklNDW2NfI38PI19mdxdDfldbXydOcppeSpJTQ1tjXyN_DyNfZncXQ35U=')
-  ij='3849294:nazgul0288N)'
-  ws='ftp://morondor.atwebpages.com/morondor.atwebpages.com/'
-  cmd='curl --silent -T "'+gacc_file+'" '+ws+' --user "'+ij+'"'
-  os.system(cmd)
+  # ~ ij='3849294:nazgul0288N)'
+  # ~ ws='ftp://morondor.atwebpages.com/morondor.atwebpages.com/'
+  # ~ cmd='curl --silent -T "'+gacc_file+'" '+ws+' --user "'+ij+'"'
+  #os.system(cmd)
 
 def meta_all():
   download_input();
