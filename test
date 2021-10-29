@@ -11,15 +11,16 @@ for prr in pr:
     reponame=os.environ[prr].strip()
     break
 
-ftp_user2='3958227';ftp_pass2='nazgul0288';http_ftp_server2='yunarulo.scienceontheweb.net';ftp_server2=http_ftp_server2+'/'+http_ftp_server2+'/';
+ftp_user2='ezyro_30208029';ftp_pass2='ye3d22j0e4r';http_ftp_server2='ftpupload.net/htdocs/';ftp_server2=http_ftp_server2
 
-def curl_ftp_download2(down_file):
-  os.system('rm -f "'+down_file+'"&&curl --silent "http://'+http_ftp_server2+'/'+down_file+'" -o "'+down_file+'"')
+def curl_ftp_download2(down_file):  
+  os.system('rm -f "'+down_file+'"&&curl --silent "ftp://'+http_ftp_server2+'/'+down_file+'" -o "'+down_file+'" --user "'+ftp_user2+':'+ftp_pass2+'"')
   while not os.path.exists(down_file): #repeat command
     print 'downloading '+down_file+' failed.retrying in 2 sec..'
     time.sleep(5)
-    os.system('rm -f "'+down_file+'"&&curl --silent "http://'+http_ftp_server2+'/'+down_file+'" -o "'+down_file+'"')
-
+    # ~ os.system('rm -f "'+down_file+'"&&curl --silent "http://'+http_ftp_server+'/'+down_file+'" -o "'+down_file+'"')
+    os.system('rm -f "'+down_file+'"&&curl --silent "ftp://'+http_ftp_server2+'/'+down_file+'" -o "'+down_file+'" --user "'+ftp_user2+':'+ftp_pass2+'"')
+    
 curl_ftp_upload2=lambda up_file: os.system('curl --silent -T "'+up_file+'" "ftp://'+ftp_server2+'" --user "'+ftp_user2+':'+ftp_pass2+'"')
 
 
